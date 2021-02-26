@@ -29,25 +29,25 @@ passport.deserialize
 
 - Creating tsconfig.json so typescript can be parsed into js
 
-  Default config
+        Default config
 
-  {
-  "compilerOptions": {
-  "esModuleInterop": true,
-  "allowSyntheticDefaultImports": true,
-  "baseUrl": ".",
-  "outDir": "build/dist",
-  "module": "commonjs",
-  "target": "es5",
-  "lib": ["es6", "dom"],
-  "sourceMap": true,
-  "allowJs": true,
-  "skipLibCheck": true,
-  "moduleResolution": "node",
-  "rootDir": "src",
-  "noImplicitAny": true
-  }
-  }
+        {
+        "compilerOptions": {
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": ".",
+        "outDir": "build/dist",
+        "module": "commonjs",
+        "target": "es5",
+        "lib": ["es6", "dom"],
+        "sourceMap": true,
+        "allowJs": true,
+        "skipLibCheck": true,
+        "moduleResolution": "node",
+        "rootDir": "src",
+        "noImplicitAny": true
+        }
+        }
 
 - Creating initial scripts
 
@@ -63,13 +63,13 @@ passport.deserialize
 - Setting up server.ts with initial server
 - Connecting MongoDB db to project
 
-      	mongoose.connect(uri, configObj, callback);
-      	- uri: connection uri
-      	- default config: {
-          	useNewUrlParser:  true,
-          	useUnifiedTopology:  true,
-      	}
-      	- callback: called after the connection to the database has been established.
+      mongoose.connect(uri, configObj, callback);
+      - uri: connection uri
+      - default config: {
+      useNewUrlParser:  true,
+      useUnifiedTopology:  true,
+      }
+      - callback: called after the connection to the database has been established.
 
 - Setting up initial middleware
 
