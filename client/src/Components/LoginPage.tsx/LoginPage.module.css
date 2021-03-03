@@ -13,36 +13,3 @@
   max-width: 600px;
   min-width: 40vw;
 }
-
-.googleContainer {
-  width: 300px;
-  height: 50px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  cursor: pointer;
-  /* background: #4385f4;
-  color: white; */
-  background: white;
-  color: #4385f4;
-  border: 1px solid #4385f4;
-}
-
-.googleContainer:hover {
-  background: #4385f4;
-  color: white;
-}
-
-.googleContainer p {
-  margin: 0 auto;
-  width: 50%;
-  font-size: 14px;
-}
-
-.googleContainer img {
-  width: 15%;
-  object-fit: contain;
-  margin-left: 3%;
-}
