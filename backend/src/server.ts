@@ -39,12 +39,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser((user: any, done: any) => {
+  // the return value is added to the session
   return done(null, user);
 });
 
 passport.deserializeUser((user: any, done: any) => {
-  return done(done, user);
+  // the return value is added to req.user
+  return done(null, user);
 });
+
+app.use('/api/users', require('./api/users'));
 
 passport.use(
   new GoogleStrategy(
@@ -60,7 +64,6 @@ passport.use(
       // User.findOrCreate({ googleId: profile.id }, function (err, user) {
       //   return cb(err, user);
       // });
-      console.log(profile);
       cb(null, profile);
     }
   )
@@ -76,10 +79,6 @@ app.get(
     res.redirect('http://localhost:3000');
   }
 );
-
-app.get('/', (req, res) => {
-  res.send('Hello World!!!');
-});
 
 app.listen(PORT, () => {
   console.log(`Server started in port: ${PORT}`);

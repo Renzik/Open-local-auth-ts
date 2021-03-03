@@ -1,0 +1,27 @@
+.navBarWrapper {
+  width: 100vw;
+  height: 50px;
+  color: white;
+  background-color: black;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0;
+}
+
+.navBar {
+  width: 15%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.navBar li {
+  list-style: none;
+  cursor: pointer;
+}
+
+.navBar a {
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  text-decoration: none;
+}
