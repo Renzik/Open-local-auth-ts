@@ -4,6 +4,8 @@ import cors from 'cors';
 import session from 'express-session';
 import passport from 'passport';
 
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
 const app = express();
 const PORT = 4000;
 
@@ -35,6 +37,45 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.serializeUser((user: any, done: any) => {
+  return done(null, user);
+});
+
+passport.deserializeUser((user: any, done: any) => {
+  return done(done, user);
+});
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: '/auth/google/callback',
+    },
+    // this function gets called on a succesful authentication!
+    // the function below is called the verify cb.
+    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
+      // insert into db.
+      // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      //   return cb(err, user);
+      // });
+      console.log(profile);
+      cb(null, profile);
+    }
+  )
+);
+
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
+
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    // Successful authentication, redirect home.
+    res.redirect('http://localhost:3000');
+  }
+);
 
 app.get('/', (req, res) => {
   res.send('Hello World!!!');
