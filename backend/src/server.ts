@@ -56,6 +56,6 @@ passport.deserializeUser((userId: string, done: any) => {
 
 app.use('/api/users', require('./api/users'));
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
   console.log(`Server started in port: ${PORT}`);
 });
