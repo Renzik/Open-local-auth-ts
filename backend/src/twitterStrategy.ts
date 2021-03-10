@@ -1,5 +1,7 @@
 import passport from 'passport';
 import { Router } from 'express';
+import User from './Models/User';
+import { IUser } from './types';
 
 const router = Router();
 const TwitterStrategy = require('passport-twitter').Strategy;
@@ -14,10 +16,24 @@ passport.use(
       callbackURL: '/auth/twitter/callback',
     },
     function (token: any, tokenSecret: any, profile: any, cb: any) {
-      // User.findOrCreate({ twitterId: profile.id }, function (err, user) {
-      //   return cb(err, user);
-      // });
-      cb(null, profile);
+      // insert into db.
+      User.findOne({ twitterId: profile.id }, async (err: Error, doc: IUser) => {
+        // return the error but no user is coming back
+        if (err) return cb(err, null);
+
+        if (!doc) {
+          // create new user
+          const newUser = new User({
+            twitterId: profile.id,
+            username: profile.username,
+          });
+          await newUser.save();
+          // if it doesn't exist send the new user
+          cb(null, newUser);
+        }
+        // if it does exist send the found doc
+        cb(null, doc);
+      });
     }
   )
 );

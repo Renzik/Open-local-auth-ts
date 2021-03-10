@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import session from 'express-session';
 import passport from 'passport';
+import User from './Models/User';
+import { IUser } from './types';
 
 const app = express();
 const PORT = 4000;
@@ -42,12 +44,14 @@ app.use(require('./githubStrategy'));
 
 passport.serializeUser((user: any, done: any) => {
   // the return value is added to the session
-  return done(null, user);
+  return done(null, user._id);
 });
 
-passport.deserializeUser((user: any, done: any) => {
+passport.deserializeUser((userId: string, done: any) => {
   // the return value is added to req.user
-  return done(null, user);
+  User.findById(userId, (err: Error, doc: IUser) => {
+    return done(null, doc);
+  });
 });
 
 app.use('/api/users', require('./api/users'));

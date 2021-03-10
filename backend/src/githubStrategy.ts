@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
+import User from './Models/User';
+import { IUser } from './types';
 
 const router = Router();
 const GithubStrategy = require('passport-github').Strategy;
@@ -16,10 +18,24 @@ passport.use(
       callbackURL: '/auth/github/callback',
     },
     function (accessToken: any, refreshToken: any, profile: any, cb: any) {
-      // User.findOrCreate({ githubId: profile.id }, function (err, user) {
-      //   return cb(err, user);
-      // });
-      cb(null, profile);
+      // insert into db.
+      User.findOne({ githubId: profile.id }, async (err: Error, doc: IUser) => {
+        // return the error but no user is coming back
+        if (err) return cb(err, null);
+
+        if (!doc) {
+          // create new user
+          const newUser = new User({
+            githubId: profile.id,
+            username: profile.username,
+          });
+          await newUser.save();
+          // if it doesn't exist send the new user
+          cb(null, newUser);
+        }
+        // if it does exist send the found doc
+        cb(null, doc);
+      });
     }
   )
 );

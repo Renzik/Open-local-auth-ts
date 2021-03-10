@@ -7,6 +7,7 @@ ReactDOM.render(
   <React.StrictMode>
     {/* App has access to our context variable -> value */}
     <Context>
+      {/* App is a descendant of this provider, giving it and all of its descendants access to the context value */}
       <App />
     </Context>
   </React.StrictMode>,

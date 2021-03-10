@@ -10,7 +10,6 @@ import CustomButton from '../CustomButton/CustomButton';
 
 const LoginPage = () => {
   const [whiteLogo, setWhiteLogo] = useState(false);
-  console.log(whiteLogo);
 
   const googleLogin = () => {
     window.open('http://localhost:4000/auth/google', '_self');
