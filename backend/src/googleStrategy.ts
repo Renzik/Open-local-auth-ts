@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Router } from 'express';
 import User from './Models/User';
-import { IUser } from './types';
+import { IMongoDBUser } from './types';
 
 const router = Router();
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -17,9 +17,9 @@ passport.use(
     },
     // this function gets called on a succesful authentication!
     // the function below is called the verify cb.
-    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
+    function (_: any, __: any, profile: any, cb: any) {
       // insert into db.
-      User.findOne({ googleId: profile.id }, async (err: Error, doc: IUser) => {
+      User.findOne({ googleId: profile.id }, async (err: Error, doc: IMongoDBUser) => {
         // return the error but no user is coming back
         if (err) return cb(err, null);
 
@@ -47,6 +47,6 @@ router.get(
   passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
     // Successful authentication, redirect home.
-    res.redirect('http://localhost:3000');
+    res.redirect('/');
   }
 );

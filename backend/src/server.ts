@@ -4,7 +4,7 @@ import cors from 'cors';
 import session from 'express-session';
 import passport from 'passport';
 import User from './Models/User';
-import { IUser } from './types';
+import { IMongoDBUser } from './types';
 
 const app = express();
 const PORT = 4000;
@@ -24,7 +24,7 @@ mongoose.connect(
 app.use(express.json());
 
 // cors middleware
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: '/', credentials: true }));
 
 // creates session
 app.use(
@@ -42,14 +42,14 @@ app.use(require('./googleStrategy'));
 app.use(require('./twitterStrategy'));
 app.use(require('./githubStrategy'));
 
-passport.serializeUser((user: any, done: any) => {
+passport.serializeUser((user: IMongoDBUser, done: any) => {
   // the return value is added to the session
   return done(null, user._id);
 });
 
 passport.deserializeUser((userId: string, done: any) => {
   // the return value is added to req.user
-  User.findById(userId, (err: Error, doc: IUser) => {
+  User.findById(userId, (err: Error, doc: IMongoDBUser) => {
     return done(null, doc);
   });
 });

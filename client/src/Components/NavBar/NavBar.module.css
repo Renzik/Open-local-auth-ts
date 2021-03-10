@@ -18,6 +18,7 @@
 .navBar li {
   list-style: none;
   cursor: pointer;
+  font-family: 'Poppins', sans-serif;
 }
 
 .navBar a {

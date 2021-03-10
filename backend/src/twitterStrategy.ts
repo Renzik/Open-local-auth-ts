@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Router } from 'express';
 import User from './Models/User';
-import { IUser } from './types';
+import { IMongoDBUser } from './types';
 
 const router = Router();
 const TwitterStrategy = require('passport-twitter').Strategy;
@@ -15,9 +15,9 @@ passport.use(
       consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
       callbackURL: '/auth/twitter/callback',
     },
-    function (token: any, tokenSecret: any, profile: any, cb: any) {
+    function (_: any, __: any, profile: any, cb: any) {
       // insert into db.
-      User.findOne({ twitterId: profile.id }, async (err: Error, doc: IUser) => {
+      User.findOne({ twitterId: profile.id }, async (err: Error, doc: IMongoDBUser) => {
         // return the error but no user is coming back
         if (err) return cb(err, null);
 
@@ -45,6 +45,6 @@ router.get(
   passport.authenticate('twitter', { failureRedirect: '/login' }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect('http://localhost:3000');
+    res.redirect('/');
   }
 );

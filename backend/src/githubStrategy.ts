@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 import User from './Models/User';
-import { IUser } from './types';
+import { IMongoDBUser } from './types';
 
 const router = Router();
 const GithubStrategy = require('passport-github').Strategy;
@@ -17,9 +17,9 @@ passport.use(
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: '/auth/github/callback',
     },
-    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
+    function (_: any, __: any, profile: any, cb: any) {
       // insert into db.
-      User.findOne({ githubId: profile.id }, async (err: Error, doc: IUser) => {
+      User.findOne({ githubId: profile.id }, async (err: Error, doc: IMongoDBUser) => {
         // return the error but no user is coming back
         if (err) return cb(err, null);
 
@@ -47,6 +47,6 @@ router.get(
   passport.authenticate('github', { failureRedirect: '/login' }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect('http://localhost:3000');
+    res.redirect('/');
   }
 );

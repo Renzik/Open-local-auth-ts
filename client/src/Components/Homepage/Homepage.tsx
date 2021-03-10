@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { IUser } from '../../types/maintypes';
+import { myContext } from '../Context';
 
 const Homepage = () => {
+  const context = useContext(myContext) as IUser;
+
   return (
-    <div>
-      <h1>Hello auth</h1>
-    </div>
+    <div>{context ? <h1>Welcome back {context.username}</h1> : <h1>Welcome to me website</h1>}</div>
   );
 };
 
